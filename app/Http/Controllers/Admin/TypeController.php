@@ -122,6 +122,11 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        $type_id = $type->id;
+        $type->delete();
+        return to_route('admin.types.index')
+            ->with('message_type', "danger")
+            ->with('message_content', "Tipo $type_id eliminato con successo");
+
     }
 }

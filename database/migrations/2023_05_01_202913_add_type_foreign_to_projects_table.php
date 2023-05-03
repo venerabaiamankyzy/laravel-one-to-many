@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use League\CommonMark\Reference\Reference;
 
 return new class extends Migration
 {
@@ -19,7 +18,7 @@ return new class extends Migration
 
             // $table->foreign('type_id')
             //       ->references('id')
-						// 			->on('types');
+                        //          ->on('types');
 
             $table->foreignId('type_id')->nullable()->constrained();
         });

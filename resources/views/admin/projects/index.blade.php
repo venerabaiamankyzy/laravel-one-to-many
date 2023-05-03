@@ -33,6 +33,8 @@
               </a>
             </th>
 
+            
+
             <th scope="col">
               <a 
                 href="{{ route('admin.projects.index') }}?sort=title&order={{ $sort == 'title' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Title
@@ -42,6 +44,11 @@
               </a>
             </th>
 
+            <th scope="col">
+              Type
+            </th>
+
+            
             {{-- <th scope="col">
               <a 
                 href="{{ route('admin.projects.index') }}?sort=slug&order={{ $sort == 'slug' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Slug
@@ -51,14 +58,14 @@
               </a>
             </th> --}}
 
-            <th scope="col">
+            {{-- <th scope="col">
               <a 
                 href="{{ route('admin.projects.index') }}?sort=image&order={{ $sort == 'image' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Image
                 @if ($sort == 'image')
                   <i class="bi bi-arrow-down d-inline-block @if($order == 'DESC') rotate-180 @endif"></i>
                 @endif
               </a>
-            </th>
+            </th> --}}
 
             <th scope="col">
               <a 
@@ -107,8 +114,9 @@
           <tr>
             <th scope="row">{{$project->id}}</th>
             <td>{{ $project->getTitle(10) }}</td>
+            <td>{{ $project->type?->label }}</td>
             {{-- <td>{{ $project->slug }}</td> --}}
-            <td>{{ $project->image }}</td>
+            {{-- <td>{{ $project->image }}</td> --}}
             <td>{{ $project->getAbstract(15) }}</td>
             {{-- <td>{{ $project->link }}</td> --}}
             <td>{{ $project->created_at }}</td>

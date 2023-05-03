@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Admin\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
@@ -17,8 +17,8 @@ class TypeController extends Controller
      */
     public function index()
     {
-        
-        //
+        $type = Type::all();
+        return view('admin.types.index', compact('types'));
     }
 
     /**

@@ -28,7 +28,8 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        $type = new Type();
+        return view('admin.types.form', compact('type'));
     }
 
     /**

@@ -15,10 +15,14 @@ class TypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $type = Type::all();
-        return view('admin.types.index', compact('types'));
+        $sort = (!empty($sort_request = $request->get('sort'))) ? $sort_request : "updated_at"; 
+        $order = (!empty($order_request = $request->get('order'))) ? $order_request : "DESC"; 
+
+        $projects = Type::orderBy($sort, $order)->paginate(8)->withQueryString();
+        
+        return view('admin.types.index', compact('types', 'sort', 'order'));
     }
 
     /**

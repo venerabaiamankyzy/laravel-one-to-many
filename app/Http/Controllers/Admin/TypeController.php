@@ -93,7 +93,25 @@ class TypeController extends Controller
      */
     public function update(Request $request, Type $type)
     {
-        //
+        $request->validate([
+            'label' => 'required|string|max:20',
+            'color' => 'required|string|size:7'
+        ], [
+            'label.required' => 'La label è obbligatorio',
+            'label.string' => 'La label deve essere una stringa',
+            'label.max' => 'La label deve essere di massimo 20 caratteri',
+
+            'color.required' => 'La label è obbligatorio',
+            'color.string' => 'La label deve essere una stringa',
+            'color.max' => 'La label deve essere un esadecimale 7 caratteri (es. \'#fffffff\')'
+
+        ]);
+        
+        $type->update($request->all());
+        $type->save();
+
+        return to_route('admin.types.show')
+            ->with('message_content', "Tipo $type->id modificato con successo");
     }
 
     /**

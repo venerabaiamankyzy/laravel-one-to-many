@@ -35,6 +35,11 @@
 						</li>
 
 						<li class="nav-item">
+							<a class="nav-link @if (request()->routeIs('admin.types*')) active @endif"
+								href="{{ route('admin.types.index') }}">{{ __('Types') }}</a>
+						</li>
+
+						<li class="nav-item">
 							<a class="nav-link @if (request()->routeIs('profile*')) active @endif"
 								href="{{ route('profile.edit') }}">{{ __('Profile') }}</a>
 						</li>

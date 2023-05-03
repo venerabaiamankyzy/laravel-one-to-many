@@ -13,6 +13,14 @@ a {
     transform: rotate(180deg);
 }
 
+.color-preview {
+    display: inline-block;
+    border-radius: 50%;
+    vertical-align: middle;
+    width: 20px;
+    height: 20px;
+}
+
 .navbar {
     height: 100vh;
     width: 250px;

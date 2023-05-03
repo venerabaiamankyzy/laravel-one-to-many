@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Type;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -62,7 +63,7 @@ class TypeController extends Controller
         $type->fill($request->all());
         $type->save();
 
-        return to_route('admin.types.show')
+        return to_route('admin.types.index')
             ->with('message_content', "Tipo $type->id creato con successo");
     }
 
@@ -74,7 +75,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        return view('admin.types.show', compact('type')); 
+        return view('admin.types.index', compact('type')); 
     }
 
     /**
@@ -114,7 +115,7 @@ class TypeController extends Controller
         $type->update($request->all());
         $type->save();
 
-        return to_route('admin.types.show')
+        return to_route('admin.types.index')
             ->with('message_content', "Tipo $type->id modificato con successo");
     }
 
@@ -127,7 +128,13 @@ class TypeController extends Controller
     public function destroy(Type $type)
     {
         $type_id = $type->id;
+
+        // Delete child records from the "projects" table that reference the parent record
+        DB::table('projects')->where('type_id', $type_id)->delete();
+
+        // Redirect to the index page with a success message
         $type->delete();
+    
         return to_route('admin.types.index')
             ->with('message_type', "danger")
             ->with('message_content', "Tipo $type_id eliminato con successo");

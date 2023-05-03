@@ -43,11 +43,15 @@
             
             <th scope="col">
               <a 
-                href="{{ route('admin.types.index') }}?sort=color&order={{ $sort == 'color' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Label
+                href="{{ route('admin.types.index') }}?sort=color&order={{ $sort == 'color' && $order != 'DESC' ? 'DESC' : 'ASC' }}">Color
                 @if ($sort == 'color')
                   <i class="bi bi-arrow-down d-inline-block @if($order == 'DESC') rotate-180 @endif"></i>
                 @endif
               </a>
+            </th>
+
+            <th scope="col">
+              Pill  
             </th>
 
             <th scope="col">
@@ -80,27 +84,32 @@
             <th scope="row">{{$type->id}}</th>
             <td>{{ $type->label }}</td>
             <td>
-              <span class="color-preview" style="background-color: {{ $type->color }}"> </span>
-              {{ $type->color }}
-            </td>            
+              {{-- <span class="color-preview" style="background-color: {{ $type->color }}"></span> --}}
+              {{ $type->color }} 
+            </td> 
+            <td>
+              <span class="badge rounded-pill" style="background-color: {{ $type->color}} ">{{ $type->label }}</span>
+            </td>           
             <td>{{ $type->created_at }}</td>
             <td>{{ $type->updated_at }}</td>
             
 
             <td class="action-cell">
-              <a 
+              {{-- <a 
                 href="{{route('admin.types.show', $type)}}">
                 <i class="bi bi-eye"></i>
-              </a>
+              </a> --}}
               
               <a 
                 href="{{ route('admin.types.edit', $type)}}">
                 <i class="bi bi-pencil"></i>
               </a>
 
-              <button 
-                class="bi bi-trash3 text-danger btn-icon" data-bs-toggle="modal" data-bs-target="#delete-type-modal-{{ $type->id }}">
-              </button>  
+              <a 
+                href="#"
+                class="text-danger " data-bs-toggle="modal" data-bs-target="#delete-type-modal-{{ $type->id }}">
+                <i class="bi bi-trash3 btn-icon"></i>
+              </a>  
               
             </td>   
           </tr>   
@@ -127,7 +136,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Conferma eliminazione di tipo!</h1>
+            <h1 class="modal-title fs-5" id="delete-category-modal-{{ $type->id}}-label">Conferma eliminazione di tipo!</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body text-start">

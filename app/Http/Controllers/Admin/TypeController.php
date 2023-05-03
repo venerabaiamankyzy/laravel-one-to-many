@@ -40,7 +40,26 @@ class TypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'label' => 'required|string|max:20',
+            'color' => 'required|string|size:7'
+        ], [
+            'label.required' => 'La label è obbligatorio',
+            'label.string' => 'La label deve essere una stringa',
+            'label.max' => 'La label deve essere di massimo 20 caratteri',
+
+            'color.required' => 'La label è obbligatorio',
+            'color.string' => 'La label deve essere una stringa',
+            'color.max' => 'La label deve essere un esadecimale 7 caratteri (es. \'#fffffff\')'
+
+        ]);
+
+        $type = new Type();
+        $type->fill($request->all());
+        $type->save();
+
+        return to_route('admin.types.show')
+            ->with('message_content', "Tipo $type->id creato con successo");
     }
 
     /**

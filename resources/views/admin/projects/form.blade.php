@@ -56,6 +56,22 @@
 
         <div class="row mb-3">
           <div class="col-md-2 text-end">
+            <label for="type_id"  class="form-label">Type</label>
+          </div>
+
+          <div class="col-md-10">
+            <select name="type_id" id="type_id" class="form-select @error('type_id') is-invalid @enderror>
+              <option value="">Non tipizzato</option>
+              @foreach ($types as $type)
+                <option @if(old('type_id', $project->type_id) == $type->id) selected @endif value="{{ $type->id}}">{{ $type->label }}</option>
+              @endforeach
+            
+            </select>
+          </div>  
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-md-2 text-end">
             <label for="is_published"  class="form-label">Published</label>
           </div>
 

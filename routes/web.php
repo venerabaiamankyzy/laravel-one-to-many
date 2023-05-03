@@ -49,7 +49,8 @@ Route::middleware('auth')
             // ->parameters(['projects' => 'project:slug']); // si usa il slug al posto di id
 
         //! types resource
-        Route::resource('types', TypeController::class);
+        // Route::resource('types', TypeController::class);
+        Route::resource('types', TypeController::class)->except('show');
     });
 
 

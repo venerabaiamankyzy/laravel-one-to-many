@@ -1,9 +1,13 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+
+use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+
 use App\Http\Controllers\Admin\HomeController as AdminHomeController;
 use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Guest\HomeController as GuestHomeController;
+use App\Http\Controllers\Admin\TypeController;
+
 
 use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
@@ -32,14 +36,20 @@ Route::middleware('auth')
     ->prefix('/admin') 
     ->name('admin.')
     ->group(function() {
+
+        //! softdeletes and trash for projects resource
         Route::get('/projects/trash', [ProjectController::class, 'trash'])->name('projects.trash');
         Route::put('/projects/{project}/restore', [ProjectController::class, 'restore'])->name('projects.restore');
         Route::delete('/projects/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('projects.force-delete');
-        
+
+        //!  projects resource        
         Route::resource('projects', ProjectController::class);
         // -›except ([' index' ]);
         // -›only (['show', 'create', 'store', 'edit', 'update', 'destroy']);
             // ->parameters(['projects' => 'project:slug']); // si usa il slug al posto di id
+
+        //! types resource
+        Route::resource('types', TypeController::class);
     });
 
 

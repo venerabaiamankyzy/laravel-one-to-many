@@ -13,8 +13,29 @@ class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['title', 'image', 'text', 'link', 'is_published'];
+    protected $fillable = ['type_id', 'title', 'image', 'text', 'link', 'is_published' ];
+    
+     //! Relations
 
+    public function type() {
+        return $this->belongsTo(Type::class);
+    }
+
+
+     //! # Mutators - formattazione date
+     protected function getUpdatedAtAttribute($value) {
+        return date('d/m/Y H:i', strtotime($value));
+    }
+
+    protected function getCreatedAtAttribute($value) {
+        return date('d/m/Y H:i', strtotime($value));
+    }
+
+    // protected function getCreatedAtAttribute($value) {
+    //     return date('d/m/Y H:i:s', strtotime($value));
+    // }
+
+    //! Getter
     public function getAbstract($max = 50) {
         return substr($this->text, 0, $max). "...";
     }
@@ -22,6 +43,8 @@ class Project extends Model
     public function getTitle($max = 50) {
         return substr($this->title, 0, $max). "...";
     }
+
+    //!  Unique slug generation
 
     public static function generateSlug($title) {
 
@@ -41,21 +64,11 @@ class Project extends Model
         
         return $possible_slug;
     }
-
-    protected function getUpdatedAtAttribute($value) {
-        return date('d/m/Y H:i', strtotime($value));
-    }
-
-    protected function getCreatedAtAttribute($value) {
-        return date('d/m/Y H:i', strtotime($value));
-    }
-
-    // protected function getCreatedAtAttribute($value) {
-    //     return date('d/m/Y H:i:s', strtotime($value));
-    // }
+    
+   
     
     public function getImageUri() {
-        return $this->image ? asset('storage/' . $this->image) : 'https://www.pulsecarshalton.co.uk/wp-content/uploads/2016/08/jk-placeholder-image.jpg';
+        return $this->image ? asset('storage/' . $this->image) : 'https://www.frosinonecalcio.com/wp-content/uploads/2021/09/default-placeholder.png';
     }
 } 
     

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Project;
+use App\Models\Type;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -40,9 +41,10 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {       
+    {              
             $project = new Project;
-            return view('admin.projects.form', compact('project'));
+            $types = Type::orderBy('label')->get();
+            return view('admin.projects.form', compact('project', 'types'));
     }
 
     /**
@@ -60,6 +62,7 @@ class ProjectController extends Controller
             'text'=> 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg',
             'link'  => 'required|url',
+            'type_id' => 'nullable|exists:types,id'
             
 
         ],[
@@ -69,14 +72,15 @@ class ProjectController extends Controller
             'image.image' => 'Il file deve essere un\'immagine',
             'image.mimes' => 'Le estensioni accettate per l\'immagine sono jpg,png,jpeg',
             'link.required' => 'Il link è obbligatorio',
-            'link.url' => 'Il link deve essere un link valido'
-            
+            'link.url' => 'Il link deve essere un link valido',
+            'type_id.exists' => 'L\'id del tipo non è valido'
+             
         ]);
         
         $data = $request->all(); 
         // il storage
         if(Arr::exists( $data, 'image')) {
-            $path = Storage::put('uploads\projects', $data['image']);
+            $path = Storage::put('uploads/projects', $data['image']);
             $data['image'] = $path;
         }
 
@@ -113,8 +117,9 @@ class ProjectController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Project $project)
-    {
-        return view('admin.projects.form', compact('project'));
+    {   
+        $types = Type::orderBy('label')->get();
+        return view('admin.projects.form', compact('project', 'types'));
     }
 
     /**
@@ -132,7 +137,9 @@ class ProjectController extends Controller
             'text'=> 'required|string',
             'image' => 'nullable|image|mimes:jpg,png,jpeg',
             'link'  => 'required|url',
-            'is_published' => 'boolean'
+            'is_published' => 'boolean',
+            'type_id.exists' => 'L\'id del tipo non è valido'
+             
         ],[
             'title.required' => 'Il titolo è obbligatorio',
             'title.string' => 'Il titolo ldeve essere una stringa',
@@ -140,7 +147,8 @@ class ProjectController extends Controller
             'image.image' => 'Il file deve essere un\'immagine',
             'image.mimes' => 'Le estensioni accettate per l\'immagine sono jpg, png, jpeg',
             'link.required' => 'Il link è obbligatorio',
-            'link.url' => 'Il link deve essere un link valido'
+            'link.url' => 'Il link deve essere un link valido',
+            'type_id.exists' => 'L\'id del tipo non è valido'
             
         ]);
 
@@ -154,7 +162,7 @@ class ProjectController extends Controller
         //gestiamo le immagini 
         if(Arr::exists( $data, 'image')) {
             if($project->image) Storage::delete($project->image);
-            $path = Storage::put('uploads\projects', $data['image']);
+            $path = Storage::put('uploads/projects', $data['image']);
             $data['image'] = $path;
         }
 
